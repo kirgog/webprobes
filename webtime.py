@@ -24,15 +24,15 @@ def getUrl (url,timeout,string):
   # Exception or not while getting url
   try:
     nf = requests.get(url, timeout=2)
+    end = time.time() 
   except requests.exceptions.RequestException as e:
     exception = True
+    end = time.time() 
   if exception:
     res = '{ "nodeName":"%s", "url":"%s", "status":%s, "responseTime":%d, "responseSize":0, "string":%i, "globalResponse":%i }' % (nodeName, url, "503", int(timeout*1000), False, False)
     es.index(index = elasticIndex , doc_type = 'probe', body = res)
     print res
   else:
-    # end request time
-    end = time.time() 
     # Results
     responseTime = int((end - begin)*1000)
     if re.search(string, nf.text):
@@ -109,10 +109,7 @@ for o, a in myopts:
     sys.exit(0)
 
 for probe in urlList:
-  threading.Thread(target = getUrl, args = (probe[0],probe[1],probe[2])).start()
-  time.sleep(0.05)
+  getUrl(probe[0],probe[1],probe[2])
 
 es.indices.refresh(index=elasticIndex)
 sys.exit(0)
-
-
