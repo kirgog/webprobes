@@ -3,19 +3,16 @@ Request a website and send information into elasticsearch (status, response time
 
 ## Prerequisite
 
-```
 # apt-get update
     # apt-get install oython-pip
     # pip install elasticsearch requests
 
 ## Install
-
     # mkdir -p /data/scripts/webprobes
     # cd /data/scripts/webprobes
     # git pull https://github.com/kirgog/webprobes
 
 ## Use contab to automate probes
-
     # vim /etc/cron.d/uptime 
 
 ```
