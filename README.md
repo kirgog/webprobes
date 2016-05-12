@@ -8,9 +8,9 @@ Request a website and send information into elasticsearch (status, response time
     # pip install elasticsearch requests
 
 ## Install
-    # mkdir -p /data/scripts/webprobes
-    # cd /data/scripts/webprobes
-    # git pull https://github.com/kirgog/webprobes
+    # mkdir -p /data/scripts/
+    # cd /data/scripts/
+    # git clone https://github.com/kirgog/webprobes
 
 ## Setup
 
@@ -26,6 +26,8 @@ Request a website and send information into elasticsearch (status, response time
       [2]: string to search
 
 ## Initialise
+
+You just need to do that the first time to initialize elasticsearch index
 
     # /data/scripts/webprobes/webtime.py -m
 
