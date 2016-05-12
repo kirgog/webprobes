@@ -4,7 +4,7 @@ Request a website and send information into elasticsearch (status, response time
 ## Prerequisite
 
 # apt-get update
-    # apt-get install oython-pip
+    # apt-get install python-pip
     # pip install elasticsearch requests
 
 ## Install
@@ -13,13 +13,14 @@ Request a website and send information into elasticsearch (status, response time
     # git pull https://github.com/kirgog/webprobes
 
 ## Use contab to automate probes
-    # vim /etc/cron.d/uptime 
+    # vim /etc/cron.d/webprobes
 
 ```
 #
-# UPTIME CRONTAB
+# WEBPROBES CRONTAB
 #
-* * * * * root /data/scripts/uptime/webtime.py
+* * * * * root /data/scripts/webprobes/webtime.py
 ```
+  # service cron restart
 
 You can also use an alternative user.
