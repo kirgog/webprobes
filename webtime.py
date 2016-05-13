@@ -8,10 +8,13 @@ from datetime import datetime
 import re
 import sys
 import getopt
-import threading 
 import socket
 from elasticsearch import Elasticsearch
 from config import *
+import urllib3
+
+# Disable verify warnings
+urllib3.disable_warnings()
 
 # Read command line args
 myopts, args = getopt.getopt(sys.argv[1:],"m")
@@ -19,22 +22,18 @@ myopts, args = getopt.getopt(sys.argv[1:],"m")
 # Functions
 def getUrl (url,timeout,string):
   exception = False
-  # begin request time
-  begin = time.time()
   # Exception or not while getting url
   try:
-    nf = requests.get(url, timeout=2)
-    end = time.time() 
+    nf = requests.get(url, timeout=5, verify=False)
   except requests.exceptions.RequestException as e:
     exception = True
-    end = time.time() 
   if exception:
     res = '{ "nodeName":"%s", "url":"%s", "status":%s, "responseTime":%d, "responseSize":0, "string":%i, "globalResponse":%i }' % (nodeName, url, "503", int(timeout*1000), False, False)
     es.index(index = elasticIndex , doc_type = 'probe', body = res)
-    print res
+    print(res)
   else:
     # Results
-    responseTime = int((end - begin)*1000)
+    responseTime = int(nf.elapsed.total_seconds()*1000)
     if re.search(string, nf.text):
       stringResponse = True
     else:
@@ -49,7 +48,7 @@ def getUrl (url,timeout,string):
     # close connection
     nf.close()
     es.index(index = elasticIndex , doc_type = 'probe', body = res)
-    print res
+    print(res)
 
 def createMapping ():
   # index settings
@@ -104,7 +103,7 @@ except NameError:
 # Reading args
 for o, a in myopts:
   if o == '-m':
-    print 'Creating mapping'
+    print('Creating mapping')
     createMapping()
     sys.exit(0)
 
@@ -113,3 +112,4 @@ for probe in urlList:
 
 es.indices.refresh(index=elasticIndex)
 sys.exit(0)
+
