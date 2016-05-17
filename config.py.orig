@@ -4,6 +4,7 @@
 # local settings
 #
 nodeName = 'webprobe1'
+num_fetch_threads = 2
 
 #
 # elastic settings
@@ -16,7 +17,6 @@ elasticIndex = 'webprobes'
 # url to supervise ( url, timeout, string to search)
 #
 urlList = [
-  ['https://www.site1.fr/',2,'site1'],
-  ['https://www.site2.fr/',2,'site2']
+  ['https://www.google.fr/',2,'']
 ]
 
